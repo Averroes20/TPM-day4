@@ -2,7 +2,7 @@
   <div class="container">
     <h3>Todo Detail</h3>
     <p>{{ todoItem.name }}</p>
-    <router-link to="/">Back to list</router-link>
+    <router-link to="/todolist">Back to list</router-link>
   </div>
 </template>
 
@@ -10,10 +10,15 @@
 export default {
   name: "TodoDetail",
   props: ['index'],
-  computed: {
-    todoItem() {
-      return this.$store.getters.todoItem(this.index);
-    }
+  data() {
+    return {
+      todoItem: {}
+    };
+  },
+  created() {
+    const index = this.index;
+    // Assuming you have access to your todoList via $root, otherwise adjust accordingly
+    this.todoItem = this.$root.$data.todoList[index] || { name: 'Item not found' };
   }
 };
 </script>
