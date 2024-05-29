@@ -1,27 +1,32 @@
 <template>
   <div class="container">
     <h3>Todo List (TPM-3)</h3>
-    <div>
-      <p><strong>Todo list:</strong></p>
-      <ol>
-        <li v-for="(item, index) in todoList" :key="index">
-          <span v-if="editingIndex !== index">
-            {{ item.name }}
-            <button @click="editItem(index)">Edit</button>
-            <button @click="deleteItem(index)">Delete</button>
-          </span>
-          <span v-else>
-            <input type="text" v-model="editedItem.name" placeholder="Edit item name.."/>
-            <button @click="saveItem(index)">Save</button>
-            <button @click="cancelEdit">Cancel</button>
-          </span>
-        </li>
-      </ol>
-    </div>
+    <table class="todo-table">
+      <tbody>
+        <tr v-for="(item, index) in todoList" :key="index">
+          <td v-if="editingIndex !== index">
+            <router-link :to="{ name: 'TodoDetail', params: { index } }" class="text-style">{{ item.name }}</router-link>
+          </td>
+          <td v-else>
+            <input type="text" v-model="editedItem.name" placeholder="Edit item name.." />
+          </td>
+          <td class="align-right">
+            <div v-if="editingIndex !== index">
+              <button @click="editItem(index)">Edit</button>
+              <button @click="deleteItem(index)">Delete</button>
+            </div>
+            <div v-else>
+              <button @click="saveItem(index)">Save</button>
+              <button @click="cancelEdit">Cancel</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-    <form v-on:submit.prevent="addItem">
+    <form @submit.prevent="handleAddItem" class="form-input">
       <p>
-        <input type="text" required placeholder="item name.." v-model="itemName"/>
+        <input type="text" required placeholder="item name.." v-model="itemName" />
         <button type="submit">Add item</button>
       </p>
     </form>
@@ -30,31 +35,38 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapActions } from 'vuex';
+
 export default {
-  name: 'TodoList',
+  name: "TodoList",
   data() {
     return {
-      itemName: null,
-      todoList: [],
+      itemName: '',
       editingIndex: null,
       editedItem: {},
     };
   },
+  computed: {
+    ...mapState(['todoList']),
+    ...mapGetters(['isHebat']),
+  },
   methods: {
-    addItem() {
-      let item = { name: this.itemName };
-      this.todoList.push(item);
-      this.itemName = null;
+    ...mapActions(['addItem', 'deleteItem', 'updateItem']),
+    handleAddItem() {
+      if (this.itemName.trim()) {
+        this.addItem({ name: this.itemName });
+        this.itemName = '';
+      }
     },
     deleteItem(index) {
-      this.todoList.splice(index, 1);
+      this.deleteItem(index);
     },
     editItem(index) {
       this.editingIndex = index;
       this.editedItem = { ...this.todoList[index] };
     },
     saveItem(index) {
-      this.todoList[index] = this.editedItem;
+      this.updateItem({ index, item: this.editedItem });
       this.editingIndex = null;
       this.editedItem = {};
     },
@@ -62,12 +74,7 @@ export default {
       this.editingIndex = null;
       this.editedItem = {};
     },
-  },
-  computed: {
-    isHebat() {
-      return this.todoList.length >= 4 ? 'Hebat!' : '';
-    },
-  },
+  }
 };
 </script>
 
@@ -78,5 +85,42 @@ export default {
   margin: auto;
   text-align: left;
   padding-left: 20px;
+  padding-right: 20px;
+}
+.todo-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+.todo-table th, .todo-table td {
+  border: 0px;
+  padding: 8px;
+}
+.todo-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+.form-input {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.form-input input {
+  width: 85%;
+  margin-right: 20px;
+}
+.align-right{
+  text-align: right;
+  width: 200px;
+}
+.text-style{
+  text-decoration: none;
+  color: black;
+}
+button{
+  margin-right: 20px;
+}
+input{
+  width: 100%;
 }
 </style>

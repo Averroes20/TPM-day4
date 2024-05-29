@@ -1,14 +1,36 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import createPersistedState from 'vuex-persistedstate'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-/* eslint-disable no-new */
-const store = new Vuex.Store({
-  plugins: [createPersistedState()],
-  modules: {
-  }
-})
-
-export default store
+export default new Vuex.Store({
+  state: {
+    todoList: [],
+  },
+  mutations: {
+    addItem(state, item) {
+      state.todoList.push(item);
+    },
+    deleteItem(state, index) {
+      state.todoList.splice(index, 1);
+    },
+    updateItem(state, { index, item }) {
+      Vue.set(state.todoList, index, item);
+    },
+  },
+  actions: {
+    addItem({ commit }, item) {
+      commit('addItem', item);
+    },
+    deleteItem({ commit }, index) {
+      commit('deleteItem', index);
+    },
+    updateItem({ commit }, payload) {
+      commit('updateItem', payload);
+    },
+  },
+  getters: {
+    todoList: state => state.todoList,
+    isHebat: state => state.todoList.length >= 4 ? 'Hebat!' : '',
+  },
+});
