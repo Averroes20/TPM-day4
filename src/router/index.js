@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TodoDetail from '@/views/TodoDetail.vue'
-import NewsDetailView from '@/views/NewsDetailView.vue'
+import NewsDetail from '@/components/NewsDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -26,7 +26,7 @@ const routes = [
   {
     path: '/detail/:id',
     name: 'NewsDetail',
-    component: NewsDetailView,
+    component: NewsDetail,
     props: true,
   },
 ]

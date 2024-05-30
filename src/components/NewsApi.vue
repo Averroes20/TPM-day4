@@ -8,8 +8,7 @@
         <div class="article-content">
           <h2>{{ article.title }}</h2>
           <p><strong>By:</strong> {{ article.author }}</p>
-          <p>{{ article.description }}</p>
-          <a :href="article.url" target="_blank">Read more</a>
+          <button @click="goToDetail(article.url)">Read more</button>
         </div>
       </div>
     </div>
@@ -29,6 +28,9 @@ export default {
   },
   methods: {
     ...mapActions('newsapi', ['fetchData']),
+    goToDetail(url) {
+      this.$router.push({ name: 'NewsDetail', params: { id: url } });
+    },
   },
   created() {
     this.fetchData();
@@ -36,29 +38,30 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .news-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.content{
-	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
+.content {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .article-card {
   width: 47%;
-	height: 350px;
+  height: 350px;
   margin-bottom: 20px;
   margin-right: 10px;
   border: 1px solid #ccc;
   padding: 10px;
-	text-align: left;
-	display: flex;
-	justify-content: center;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer; /* Menambahkan pointer cursor saat mengarahkan ke kartu artikel */
 }
 
 .article-image {
@@ -66,10 +69,9 @@ export default {
   height: 200px;
   display: block;
   margin-bottom: 10px;
-	align-self: center;
 }
 
 .article-content {
-  padding: 10px;
+  flex: 1;
 }
 </style>
