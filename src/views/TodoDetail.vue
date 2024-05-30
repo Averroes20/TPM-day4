@@ -17,7 +17,6 @@ export default {
   },
   created() {
     const index = this.index;
-    // Assuming you have access to your todoList via $root, otherwise adjust accordingly
     this.todoItem = this.$root.$data.todoList[index] || { name: 'Item not found' };
   }
 };
