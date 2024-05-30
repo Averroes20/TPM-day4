@@ -3,12 +3,12 @@
     <div v-if="isLoading">Loading...</div>
     <div v-else-if="error">{{ error.message }}</div>
     <div v-else class="content">
-      <div v-for="article in data" :key="article.url" class="article-card">
+      <div v-for="article in data" :key="article.url" @click="goToDetail(article.url)" class="article-card">
         <img :src="article.urlToImage" :alt="article.title" class="article-image" />
         <div class="article-content">
           <h2>{{ article.title }}</h2>
           <p><strong>By:</strong> {{ article.author }}</p>
-          <button @click="goToDetail(article.url)">Read more</button>
+          <!-- <button >Read more</button> -->
         </div>
       </div>
     </div>
