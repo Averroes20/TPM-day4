@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import newsapi from './newsapi.js';
 
 Vue.use(Vuex);
 
@@ -33,4 +35,8 @@ export default new Vuex.Store({
     todoList: state => state.todoList,
     isHebat: state => state.todoList.length >= 4 ? 'Hebat!' : '',
   },
+  modules:{
+    newsapi,
+  },
+  plugins: [createPersistedState()], 
 });

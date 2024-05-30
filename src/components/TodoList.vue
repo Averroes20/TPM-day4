@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapActions, mapGetters, mapState } from 'vuex';
 
 export default {
   name: "TodoList",
@@ -51,30 +51,22 @@ export default {
     ...mapGetters(['isHebat']),
   },
   methods: {
-    ...mapActions(['addItem', 'deleteItem', 'updateItem']),
-    handleAddItem() {
-      if (this.itemName.trim()) {
-        this.addItem({ name: this.itemName });
-        this.itemName = '';
-      }
-    },
-    deleteItem(index) {
-      this.deleteItem(index);
-    },
-    editItem(index) {
-      this.editingIndex = index;
-      this.editedItem = { ...this.todoList[index] };
-    },
-    saveItem(index) {
-      this.updateItem({ index, item: this.editedItem });
-      this.editingIndex = null;
-      this.editedItem = {};
-    },
-    cancelEdit() {
-      this.editingIndex = null;
-      this.editedItem = {};
-    },
-  }
+  ...mapActions(['addItem', 'deleteItem', 'updateItem']),
+  handleAddItem() {
+    if (this.itemName.trim()) {
+      this.$store.dispatch('addItem', { name: this.itemName });
+      this.itemName = '';
+    }
+  },
+  deleteItem(index) {
+    this.$store.dispatch('deleteItem', index);
+  },
+  saveItem(index) {
+    this.$store.dispatch('updateItem', { index, item: this.editedItem });
+    this.editingIndex = null;
+    this.editedItem = {};
+  },
+},
 };
 </script>
 

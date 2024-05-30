@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TodoDetail from '@/views/TodoDetail.vue'
+import NewsDetailView from '@/views/NewsDetailView.vue'
 
 Vue.use(VueRouter)
 
@@ -16,7 +17,18 @@ const routes = [
     name: 'todolist',
     component: () => import('../views/TodoListView.vue')
   },
-  { path: '/todo/:index', name: 'TodoDetail', component: TodoDetail, props: true }
+  { path: '/todo/:index', name: 'TodoDetail', component: TodoDetail, props: true },
+  {
+    path: '/news-api',
+    name: 'news-api',
+    component: () => import('../views/NewsApiView.vue')
+  },
+  {
+    path: '/detail/:id',
+    name: 'NewsDetail',
+    component: NewsDetailView,
+    props: true,
+  },
 ]
 
 const router = new VueRouter({
