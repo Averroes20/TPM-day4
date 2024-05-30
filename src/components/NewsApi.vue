@@ -53,15 +53,16 @@ export default {
 
 .article-card {
   width: 47%;
-  height: 350px;
+  height: 250px;
   margin-bottom: 20px;
   margin-right: 10px;
   border: 1px solid #ccc;
   padding: 10px;
+	align-items: center;
   text-align: left;
   display: flex;
-  flex-direction: column;
-  cursor: pointer; /* Menambahkan pointer cursor saat mengarahkan ke kartu artikel */
+  flex-direction: row;
+  cursor: pointer; 
 }
 
 .article-image {
