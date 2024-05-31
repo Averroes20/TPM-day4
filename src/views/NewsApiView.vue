@@ -1,17 +1,26 @@
 <template>
-    <div>
-      <h1>News API</h1>
+  <div>
+    <!-- <CarouselComponent/> -->
+    <ParallaxComponent/>
+    <v-container>
+      <ButtonGroups/>
       <NewsApi />
-    </div>
+    </v-container>
+  </div>
   </template>
   
-  <script>
-  // @ is an alias to /src
-  import NewsApi from '@/components/NewsApi.vue'
-  
+<script>
+  // import CarouselComponent from '@/components/CarouselComponent.vue';
+  import NewsApi from '@/components/NewsApi.vue';
+  import ButtonGroups from '@/components/ButtonGroups.vue';
+  import ParallaxComponent from '@/components/ParallaxComponent.vue';
+
   export default {
     components: {
-      NewsApi
+      NewsApi,
+      // CarouselComponent,
+      ButtonGroups,
+      ParallaxComponent,
     }
   }
-  </script>
+</script>

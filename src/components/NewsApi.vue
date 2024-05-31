@@ -1,22 +1,56 @@
 <template>
-  <div class="news-container">
-    <div v-if="isLoading">Loading...</div>
+  <v-container>
+    <div v-if="isLoading">
+      <v-row>
+        <v-skeleton-loader
+          class="ml-6"
+          width="344"
+          type="card"
+        ></v-skeleton-loader>
+        <v-skeleton-loader
+          class="ml-6"
+          width="344"
+          type="card"
+        ></v-skeleton-loader>
+        <v-skeleton-loader
+          class="ml-6"
+          width="344"
+          type="card"
+        ></v-skeleton-loader>
+      </v-row>
+    </div>
     <div v-else-if="error">{{ error.message }}</div>
-    <div v-else class="content">
-      <div v-for="article in data" :key="article.url" @click="goToDetail(article.url)" class="article-card">
-        <img :src="article.urlToImage" :alt="article.title" class="article-image" />
+    <v-row v-else>
+      <v-card
+      class="mx-auto mb-4"
+      max-width="344"
+      v-for="article in data" :key="article.url" @click="goToDetail(article.url)">
+        <v-img :src="article.urlToImage" :alt="article.title" height="200px">
+          <template v-slot:placeholder>
+          <v-row
+            class="fill-height ma-0"
+            align="center"
+            justify="center"
+          >
+            <v-progress-circular
+              indeterminate
+              color="grey lighten-5"
+            ></v-progress-circular>
+          </v-row>
+        </template>
+        </v-img>
         <div class="article-content">
-          <h2>{{ article.title }}</h2>
-          <p><strong>By:</strong> {{ article.author }}</p>
+          <v-card-title>{{ article.title }}</v-card-title>
+          <v-card-subtitle><strong>By:</strong> {{ article.author }}</v-card-subtitle>
           <!-- <button >Read more</button> -->
         </div>
-      </div>
-    </div>
-  </div>
+      </v-card>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "NewsApi",
@@ -35,44 +69,10 @@ export default {
   created() {
     this.fetchData();
   },
+  inject: {
+    theme: {
+      default: { isDark: false },
+    },
+  },
 };
 </script>
-
-<style scoped>
-.news-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
-.content {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.article-card {
-  width: 47%;
-  height: 250px;
-  margin-bottom: 20px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  padding: 10px;
-	align-items: center;
-  text-align: left;
-  display: flex;
-  flex-direction: row;
-  cursor: pointer; 
-}
-
-.article-image {
-  max-width: 100%;
-  height: 200px;
-  display: block;
-  margin-bottom: 10px;
-}
-
-.article-content {
-  flex: 1;
-}
-</style>
